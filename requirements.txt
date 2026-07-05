@@ -20,3 +20,7 @@ pymongo
 langchain-huggingface
 transformers
 accelerate
+streamlit
+requests
+langchain-qdrant
+python-multipart
