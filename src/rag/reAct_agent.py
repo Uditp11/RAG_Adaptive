@@ -1,3 +1,4 @@
+from langchain import hub
 """
 ReAct agent setup for document retrieval and question answering.
 """
@@ -8,6 +9,8 @@ from langchain.agents import create_react_agent, AgentExecutor
 from langchain_core.prompts import ChatPromptTemplate
 
 from src.config.settings import Config
+from src.llms.huggingface import llm
+#from src.llms.openai import llm
 #from src.llms.openai import llm
 from src.llms.groq import llm
 from src.rag.retriever_setup import retriever_tool
@@ -26,6 +29,12 @@ if os.path.exists("description.txt"):
 else:
     description = None
 
+#prompt = ChatPromptTemplate.from_messages([
+#    ("system", config.prompt("system_prompt")),
+#    ("human", "{input}"),
+#    ("ai", "{agent_scratchpad}")
+#])
+prompt = hub.pull("hwchase17/react")
 # Create ReAct agent prompt
 prompt = ChatPromptTemplate.from_messages([
     ("system", config.prompt("system_prompt")),

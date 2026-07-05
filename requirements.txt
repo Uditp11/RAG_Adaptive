@@ -17,6 +17,9 @@ fastapi
 uvicorn
 motor
 pymongo
+langchain-huggingface
+transformers
+accelerate
 streamlit
 requests
 langchain-qdrant
