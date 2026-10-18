@@ -59,7 +59,7 @@ The Qdrant code is still in `src/rag/retriever_setup.py`, commented out. [docs/q
 | ReAct retrieval agent and description rewrite | OpenAI `gpt-4o` | `src/llms/openai.py` |
 | Embeddings | `OpenAIEmbeddings` | `src/rag/retriever_setup.py` |
 
-`src/llms/huggingface.py` loads `HuggingFaceTB/SmolLM3-3B` through `transformers`. It is still imported by the graph and agent modules, so it loads at startup even though the Groq and OpenAI models are the ones used.
+`src/llms/huggingface.py` sets up `HuggingFaceTB/SmolLM3-3B` through `transformers` as a local alternative. It also needs `torch`, which is not in `requirements.txt`.
 
 ## Setup
 
@@ -130,6 +130,10 @@ src/
 streamlit_app/       login page, chat page, API client
 docs/qdrant-setup.md switching the vector store from FAISS to Qdrant
 ```
+
+## License
+
+MIT. See [LICENSE](LICENSE).
 
 ## Author
 
