@@ -30,8 +30,6 @@ def create_user(username: str, password: str, api_token: str) -> bool:
         "X-API-TOKEN": api_token,
         "Content-Type": "application/json"
     }
-    logger.info("API Token received: %s", api_token)
-
     try:
         response = requests.post(
             f"{RUST_BASE_URL}/create_user",
@@ -81,7 +79,7 @@ def login_user(username: str, password: str, api_token: str) -> dict:
         json={"username": username, "password": password},
         headers=headers,
     )
-    logger.info("Calling /login, status code: %s", response.json())
+    logger.info("Calling /login, status code: %s", response.status_code)
 
     if response.status_code == 200:
         return response.json()
@@ -97,7 +95,7 @@ def get_api_token() -> str:
         API token string if successful, None otherwise.
     """
     response = requests.post(f"{RUST_BASE_URL}/init")
-    logger.info("Calling /init, status code: %s", response.json())
+    logger.info("Calling /init, status code: %s", response.status_code)
 
     if response.status_code == 200:
         return response.json()["api_token"]

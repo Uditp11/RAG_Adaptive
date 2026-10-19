@@ -14,6 +14,9 @@ from src.models.verification_result import VerificationResult
 
 config = Config()
 
+# Rewrites allowed before generating from the last retrieved context
+MAX_REWRITES = 2
+
 
 def routing_tool(state: State) -> Literal["retriever", "general_llm", "web_search"]:
     """
@@ -41,14 +44,17 @@ def doc_tool(state: State) -> Literal["rewrite", "generate"]:
         state (State): The current state of the graph.
 
     Returns:
-        The next node: "generate" if score is "yes", otherwise "rewrite".
+        The next node: "generate" if score is "yes" or MAX_REWRITES is reached,
+        otherwise "rewrite".
     """
     score = state["binary_score"]
     print(f"[doc_tool] Routing based on score: {score}")
     if score == "yes":
         return "generate"
-    else:
-        return "rewrite"
+    if (state.get("rewrite_count") or 0) >= MAX_REWRITES:
+        print(f"[doc_tool] Rewrite limit {MAX_REWRITES} reached, generating from current context")
+        return "generate"
+    return "rewrite"
 
 
 def verify_answer(state: State) -> Literal["__end__", "generate"]:
