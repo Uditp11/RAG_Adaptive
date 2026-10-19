@@ -134,7 +134,7 @@ def rewrite_query(state: State):
         state (State): State of the question.
 
     Returns:
-        dict: Updated latest_query.
+        dict: Updated latest_query and rewrite_count.
     """
     query = state["latest_query"]
     rewrite_prompt = PromptTemplate(
@@ -146,7 +146,8 @@ def rewrite_query(state: State):
     print(result)
 
     return {
-        "latest_query": result.content
+        "latest_query": result.content,
+        "rewrite_count": (state.get("rewrite_count") or 0) + 1
     }
 
 

@@ -38,7 +38,7 @@ The dashed loop on `generate` in the image is an answer verification step (`veri
 2. `routing_tool` sends `index` to **retriever**, `general` to **general_llm** and `search` to **web_search**.
 3. **retriever** runs a ReAct agent (at most 2 iterations) whose tool searches the uploaded documents.
 4. **grade** asks the LLM for a yes/no relevance score on what came back (`src/models/grade.py`).
-5. `doc_tool` sends `yes` to **generate**, which writes the final answer. A `no` goes to **rewrite**, which rewrites the query and sends it back to **retriever**.
+5. `doc_tool` sends `yes` to **generate**, which writes the final answer. A `no` goes to **rewrite**, which rewrites the query and sends it back to **retriever**. After two rewrites (`MAX_REWRITES` in `src/tools/graph_tools.py`) it goes to **generate** with the last retrieved context.
 6. **web_search** calls Tavily and passes the result text to **generate**. **general_llm** answers directly and ends the run.
 
 ## Document upload
